@@ -1,0 +1,3 @@
+var MINI_YOU = {
+	
+};
