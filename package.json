@@ -22,5 +22,8 @@
   ],
   "author": "Carlos Ferreira",
   "license": "MIT",
-  "homepage": "https://mini-you.world"
+  "homepage": "https://mini-you.world",
+  "devDependencies": {
+    "gulp": "^3.9.1"
+  }
 }
