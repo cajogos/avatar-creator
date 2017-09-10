@@ -7,7 +7,8 @@ var uglify = require('gulp-uglify');
 // Mind the order of these files
 var files = [
     'src/MiniYou.js',
-    'src/Creator.js',
+    'src/Avatar.js',
+    'src/Canvas.js',
     'src/Editor.js'
 ];
 
