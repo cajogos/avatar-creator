@@ -36,3 +36,23 @@ MINI_YOU.Canvas.prototype.getHeight = function()
 {
 	return this._height;
 };
+
+MINI_YOU.Canvas.prototype.drawPolygon = function(startX, startY, points, fill)
+{
+	this._ctx.beginPath();
+	this._ctx.moveTo(startX, startY);
+
+	for (var i = 0; i < points.length; i++)
+	{
+		var curX = points[i][0];
+		var curY = points[i][1];
+
+		this._ctx.lineTo(curX, curY);
+	}
+	this._ctx.closePath();
+
+	if (fill === true)
+	{
+		this._ctx.fill();
+	}
+};

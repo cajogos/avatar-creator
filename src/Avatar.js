@@ -16,3 +16,5 @@ MINI_YOU.Avatar.prototype._initDraw = function()
     ctx.fillStyle = 'white';
     ctx.fillRect(0, 0, this._canvas.getWidth(), this._canvas.getHeight());
 };
+
+
