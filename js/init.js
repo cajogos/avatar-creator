@@ -1,9 +1,10 @@
 $(document).ready(function()
 {
 	var canvasElement = $('canvas#creator');
-	var creator = new MINI_YOU.Creator(canvasElement);
+    var editorElement = $('textarea.code-input');
 
-	var editorElement = $('textarea.code-input');
-	var editor = new MINI_YOU.Editor(editorElement);
+    // Start the MINI_YOU object
+    MINI_YOU.init(editorElement, canvasElement);
 
+    MINI_YOU.EDITOR.attachListener(MINI_YOU.CANVAS);
 });
