@@ -1,11 +1,11 @@
-var gulp = require('gulp');
-var babel = require('gulp-babel');
-var sourcemaps = require('gulp-sourcemaps');
-var concat = require('gulp-concat');
-var uglify = require('gulp-uglify');
+let gulp = require('gulp');
+let babel = require('gulp-babel');
+let sourcemaps = require('gulp-sourcemaps');
+let concat = require('gulp-concat');
+let uglify = require('gulp-uglify');
 
 // Mind the order of these files
-var files = [
+const files = [
     'src/MiniYou.js',
     'src/Avatar.js',
     'src/Canvas.js',
@@ -17,7 +17,7 @@ gulp.task('default', function () {
         .pipe(sourcemaps.init())
         .pipe(babel())
         .pipe(uglify())
-        .pipe(concat('avatar-creator.js'))
+        .pipe(concat('avatar-creator.min.js'))
         .pipe(sourcemaps.write('.'))
         .pipe(gulp.dest('dist'));
 });
