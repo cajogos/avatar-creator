@@ -1,7 +1,7 @@
 div.avatar-creator {
 	background: #CCC;
 	margin: 40px auto;
-	width: 1000px;
+	width: 1032px;
 	font-size: 0;
 }
 
@@ -9,8 +9,8 @@ div.avatar-creator div.code-area,
 div.avatar-creator div.avatar-area {
 	vertical-align: top;
 	display: inline-block;
-	width: 500px;
-	height: 600px;
+	width: 516px;
+	height: 516px;
 }
 
 div.avatar-creator div.code-area {

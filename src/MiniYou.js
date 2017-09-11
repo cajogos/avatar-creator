@@ -1,4 +1,4 @@
-var MINI_YOU = {
+let MINI_YOU = {
     EDITOR: undefined,
     CANVAS: undefined,
     initialized: false
