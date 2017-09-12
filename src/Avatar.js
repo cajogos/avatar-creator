@@ -57,9 +57,7 @@ MINI_YOU.Avatar.prototype._initDraw = function()
     ctx.strokeStyle = 'black';
 
     // Head
-    let headPoints = MINI_YOU.Avatar.POINTS.HEAD;
-    ctx.fillStyle = 'red';
-    this._canvas.drawPolygon(headPoints[0][0], headPoints[0][1], headPoints, true, true);
+    this._createHead('red');
 
     // Body
     let bodyPoints = MINI_YOU.Avatar.POINTS.BODY;
@@ -85,4 +83,23 @@ MINI_YOU.Avatar.prototype._initDraw = function()
     let leftLegPoints = MINI_YOU.Avatar.POINTS.LEFT_LEG;
     ctx.fillStyle = 'yellow';
     this._canvas.drawPolygon(leftLegPoints[0][0], leftLegPoints[0][1], leftLegPoints, true, true);
+};
+
+MINI_YOU.Avatar.prototype.processData = function(data)
+{
+    console.log('data', data);
+    // Head
+    if (data.head)
+    {
+        this._createHead(data.head.color);
+    }
+};
+
+MINI_YOU.Avatar.prototype._createHead = function(color)
+{
+    let ctx = this._canvas.get2DContext();
+
+    let headPoints = MINI_YOU.Avatar.POINTS.HEAD;
+    ctx.fillStyle = color;
+    this._canvas.drawPolygon(headPoints[0][0], headPoints[0][1], headPoints, true, true);
 };

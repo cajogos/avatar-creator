@@ -44,7 +44,10 @@ MINI_YOU.Canvas.prototype.get2DContext = function ()
 
 MINI_YOU.Canvas.prototype.handleEditorAlert = function (message, data)
 {
-    console.log('editor alert!', message, data);
+    if (message === 'jsonChanged')
+    {
+        this._avatar.processData(data);
+    }
 };
 
 MINI_YOU.Canvas.prototype.getWidth = function ()

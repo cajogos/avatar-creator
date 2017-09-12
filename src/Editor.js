@@ -2,9 +2,11 @@ MINI_YOU.Editor = function (editorElement)
 {
     this._element = editorElement;
 
+    this._compiler = new MINI_YOU.Compiler();
+
     this._listeners = [];
 
-    var self = this;
+    let self = this;
     this._element.on('keyup', function (e)
     {
         self.parseText();
@@ -15,8 +17,8 @@ MINI_YOU.Editor = function (editorElement)
         {
             case 9: // Tab Key
                 e.preventDefault();
-                var start = $(this).get(0).selectionStart;
-                var end = $(this).get(0).selectionEnd;
+                let start = $(this).get(0).selectionStart;
+                let end = $(this).get(0).selectionEnd;
                 $(this).val($(this).val().substring(0, start) + "    " + $(this).val().substring(end));
                 $(this).get(0).selectionStart = $(this).get(0).selectionEnd = start + 4;
                 break;
@@ -32,7 +34,7 @@ MINI_YOU.Editor.prototype.attachListener = function (listener)
 
 MINI_YOU.Editor.prototype._alertListeners = function (message, data)
 {
-    for (var i = 0; i < this._listeners.length; i++)
+    for (let i = 0; i < this._listeners.length; i++)
     {
         this._listeners[i].handleEditorAlert(message, data);
     }
@@ -40,21 +42,23 @@ MINI_YOU.Editor.prototype._alertListeners = function (message, data)
 
 MINI_YOU.Editor.prototype.parseText = function ()
 {
-    var text = this._element.val();
+    let text = this._element.val();
     try
     {
-        var jsonText = JSON.parse(text);
+        let result = this._compiler.compileCode(text);
+
         this._element.css({
             'background': 'black',
             'color': 'white'
         });
 
-        this._alertListeners('jsonChanged', jsonText);
+        this._alertListeners('jsonChanged', result);
     }
     catch (e)
     {
+        console.error(e);
         this._element.css({
-            'background': 'salmon',
+            'background': 'darkred',
             'color': 'red'
         });
     }

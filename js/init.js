@@ -10,7 +10,10 @@ $(document).ready(function ()
     "info": {
         "name": "Carlos",
         "author": "cajogos@github"
-     }
+     },
+    "head" : {
+        "color": "blue"
+    }
 }`;
     MINI_YOU.EDITOR.setText(code);
 
