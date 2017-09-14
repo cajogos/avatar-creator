@@ -1,35 +1,43 @@
 div.avatar-creator {
-	background: #CCC;
-	margin: 40px auto;
-	width: 1032px;
-	font-size: 0;
+    background: #CCC;
+    margin: 40px auto;
+    width: 1032px;
+    font-size: 0;
 }
 
 div.avatar-creator div.code-area,
 div.avatar-creator div.avatar-area {
-	vertical-align: top;
-	display: inline-block;
-	width: 516px;
-	height: 516px;
+    vertical-align: top;
+    display: inline-block;
+    width: 516px;
+    height: 516px;
 }
 
 div.avatar-creator div.code-area {
-	background: black;
-	padding: 2px;
+    background: black;
+    padding: 2px;
 }
+
 div.code-area textarea.code-input {
-	background: inherit;
-	font-family: monospace;
-	font-size: 18px;
-	height: 100%;
-	width: 100%;
-	resize: none;
-	color: white;
+    background: inherit;
+    font-family: monospace;
+    font-size: 18px;
+    height: 100%;
+    width: 100%;
+    resize: none;
+    color: white;
 }
 
 div.avatar-creator div.avatar-area {
-	background: linear-gradient(#000, #555);
+    background: linear-gradient(#000, #555);
 }
+
 div.avatar-area canvas#creator {
-	margin: 2px;
+    margin: 2px;
+}
+
+div.debugger {
+    background: black;
+    font-size: 28px;
+    color: #FFF;
 }

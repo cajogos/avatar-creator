@@ -2,7 +2,7 @@
  * @param {MINI_YOU.Canvas} canvas
  * @constructor
  */
-MINI_YOU.Avatar = function(canvas)
+MINI_YOU.Avatar = function (canvas)
 {
     this._canvas = canvas;
 
@@ -51,15 +51,31 @@ MINI_YOU.Avatar.POINTS = {
     ]
 };
 
-MINI_YOU.Avatar.prototype._initDraw = function()
+MINI_YOU.Avatar.BODY_SHAPE_1 = {
+    POINTS: [
+        [224, 144], [192, 144], [192, 64], [288, 64], [288, 144], [256, 144],
+        [256, 160], [352, 160],
+        // Left Arm
+        [352, 320], [304, 320], [304, 208], [304, 320],
+        // Left Leg
+        [304, 464], [256, 464], [256, 320],
+        // Torso
+        [224, 320],
+        // Right Leg
+        [224, 464], [176, 464], [176, 320],
+        // Right Arm
+        [176, 208], [176, 320], [128, 320], [128, 160], [224, 160]
+    ]
+};
+
+MINI_YOU.Avatar.prototype._initDraw = function ()
 {
     let ctx = this._canvas.get2DContext();
     ctx.strokeStyle = 'black';
 
+/*
     // Head
-    let headPoints = MINI_YOU.Avatar.POINTS.HEAD;
-    ctx.fillStyle = 'red';
-    this._canvas.drawPolygon(headPoints[0][0], headPoints[0][1], headPoints, true, true);
+    this._createHead('red');
 
     // Body
     let bodyPoints = MINI_YOU.Avatar.POINTS.BODY;
@@ -85,4 +101,34 @@ MINI_YOU.Avatar.prototype._initDraw = function()
     let leftLegPoints = MINI_YOU.Avatar.POINTS.LEFT_LEG;
     ctx.fillStyle = 'yellow';
     this._canvas.drawPolygon(leftLegPoints[0][0], leftLegPoints[0][1], leftLegPoints, true, true);
+*/
+
+    // Full Body
+    ctx.fillStyle = '#CCC';
+    this._canvas.drawPolygon(
+        MINI_YOU.Avatar.BODY_SHAPE_1.POINTS[0][0],
+        MINI_YOU.Avatar.BODY_SHAPE_1.POINTS[0][1],
+        MINI_YOU.Avatar.BODY_SHAPE_1.POINTS,
+        true,
+        true
+    );
+};
+
+MINI_YOU.Avatar.prototype.processData = function (data)
+{
+    console.log('data', data);
+    // Head
+    if (data.head)
+    {
+        // this._createHead(data.head.color);
+    }
+};
+
+MINI_YOU.Avatar.prototype._createHead = function (color)
+{
+    let ctx = this._canvas.get2DContext();
+
+    let headPoints = MINI_YOU.Avatar.POINTS.HEAD;
+    ctx.fillStyle = color;
+    this._canvas.drawPolygon(headPoints[0][0], headPoints[0][1], headPoints, true, true);
 };
