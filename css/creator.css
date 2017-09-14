@@ -35,3 +35,9 @@ div.avatar-creator div.avatar-area {
 div.avatar-area canvas#creator {
     margin: 2px;
 }
+
+div.debugger {
+    background: black;
+    font-size: 28px;
+    color: #FFF;
+}
