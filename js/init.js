@@ -10,7 +10,15 @@ $(document).ready(function ()
     "info": {
         "name": "Carlos",
         "author": "cajogos@github"
-     },
+    },
+    "body" : {
+        "shape": "shape1",
+        "color": "orange"
+    },
+    "eyes" : {
+        "shape": "",
+        "color": "cyan"
+    },
     "head" : {
         "color": "blue"
     }

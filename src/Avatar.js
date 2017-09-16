@@ -5,52 +5,14 @@
 MINI_YOU.Avatar = function (canvas)
 {
     this._canvas = canvas;
-
-    this._initDraw();
+    this._needsDrawing = true;
+    this._init();
 };
 MINI_YOU.Avatar.prototype.constructor = MINI_YOU.Avatar;
 
-MINI_YOU.Avatar.POINTS = {
-    HEAD: [
-        [192, 64],
-        [288, 64],
-        [288, 160],
-        [192, 160]
-    ],
-    BODY: [
-        [160, 160],
-        [320, 160],
-        [320, 320],
-        [160, 320]
-    ],
-    // Arms
-    RIGHT_ARM: [
-        [96, 160],
-        [160, 160],
-        [160, 320],
-        [96, 320]
-    ],
-    LEFT_ARM: [
-        [320, 160],
-        [384, 160],
-        [384, 320],
-        [320, 320]
-    ],
-    // Legs
-    RIGHT_LEG: [
-        [160, 320],
-        [224, 320],
-        [224, 480],
-        [160, 480]
-    ],
-    LEFT_LEG: [
-        [256, 320],
-        [320, 320],
-        [320, 480],
-        [256, 480]
-    ]
-};
-
+/**
+ * @type {Object}
+ */
 MINI_YOU.Avatar.BODY_SHAPE_1 = {
     POINTS: [
         [224, 144], [192, 144], [192, 64], [288, 64], [288, 144], [256, 144],
@@ -68,67 +30,100 @@ MINI_YOU.Avatar.BODY_SHAPE_1 = {
     ]
 };
 
-MINI_YOU.Avatar.prototype._initDraw = function ()
+/**
+ * @private
+ */
+MINI_YOU.Avatar.prototype._init = function ()
 {
     let ctx = this._canvas.get2DContext();
     ctx.strokeStyle = 'black';
 
-/*
-    // Head
-    this._createHead('red');
+    this.setBodyShape(MINI_YOU.Avatar.BODY_SHAPE_1);
+    this.setBodyColor('#CCC');
 
-    // Body
-    let bodyPoints = MINI_YOU.Avatar.POINTS.BODY;
-    ctx.fillStyle = 'blue';
-    this._canvas.drawPolygon(bodyPoints[0][0], bodyPoints[0][1], bodyPoints, true, true);
+    this._draw();
+};
 
-    // Right Arm
-    let rightArmPoints = MINI_YOU.Avatar.POINTS.RIGHT_ARM;
-    ctx.fillStyle = 'violet';
-    this._canvas.drawPolygon(rightArmPoints[0][0], rightArmPoints[0][1], rightArmPoints, true, true);
-
-    // Left Arm
-    let leftArmPoints = MINI_YOU.Avatar.POINTS.LEFT_ARM;
-    ctx.fillStyle = 'orange';
-    this._canvas.drawPolygon(leftArmPoints[0][0], leftArmPoints[0][1], leftArmPoints, true, true);
-
-    // Right Leg
-    let rightLegPoints = MINI_YOU.Avatar.POINTS.RIGHT_LEG;
-    ctx.fillStyle = 'lime';
-    this._canvas.drawPolygon(rightLegPoints[0][0], rightLegPoints[0][1], rightLegPoints, true, true);
-
-    // Left Leg
-    let leftLegPoints = MINI_YOU.Avatar.POINTS.LEFT_LEG;
-    ctx.fillStyle = 'yellow';
-    this._canvas.drawPolygon(leftLegPoints[0][0], leftLegPoints[0][1], leftLegPoints, true, true);
-*/
-
-    // Full Body
-    ctx.fillStyle = '#CCC';
-    this._canvas.drawPolygon(
-        MINI_YOU.Avatar.BODY_SHAPE_1.POINTS[0][0],
-        MINI_YOU.Avatar.BODY_SHAPE_1.POINTS[0][1],
-        MINI_YOU.Avatar.BODY_SHAPE_1.POINTS,
-        true,
-        true
-    );
+/**
+ * @private
+ */
+MINI_YOU.Avatar.prototype._draw = function ()
+{
+    if (this._needsDrawing)
+    {
+        // Draw  body
+        this._drawBody(this.getBodyShape(), this.getBodyColor());
+    }
 };
 
 MINI_YOU.Avatar.prototype.processData = function (data)
 {
-    console.log('data', data);
-    // Head
-    if (data.head)
+    if (typeof data.body !== 'undefined')
     {
-        // this._createHead(data.head.color);
+        // Body shape
+        if (typeof data.body.shape !== 'undefined')
+        {
+            let bodyShape = data.body.shape;
+            switch (bodyShape)
+            {
+                case 'shape1':
+                default:
+                    this.setBodyShape(MINI_YOU.Avatar.BODY_SHAPE_1);
+            }
+        }
+        // Body color
+        if (typeof data.body.color !== 'undefined')
+        {
+            this.setBodyColor(data.body.color);
+        }
     }
+
+    // Set the drawing!
+    this._draw();
 };
 
-MINI_YOU.Avatar.prototype._createHead = function (color)
+/**
+ * @param {Object} shape
+ */
+MINI_YOU.Avatar.prototype.setBodyShape = function (shape)
+{
+    this._bodyShape = shape;
+    this._needsDrawing = true;
+};
+
+/**
+ * @returns {Object}
+ */
+MINI_YOU.Avatar.prototype.getBodyShape = function ()
+{
+    return this._bodyShape;
+};
+
+/**
+ * @param {string} color
+ */
+MINI_YOU.Avatar.prototype.setBodyColor = function (color)
+{
+    this._bodyColor = color;
+    this._needsDrawing = true;
+};
+
+/**
+ * @returns {string}
+ */
+MINI_YOU.Avatar.prototype.getBodyColor = function ()
+{
+    return this._bodyColor;
+};
+
+/**
+ * @param {Object} bodyShape
+ * @param {string} color
+ * @private
+ */
+MINI_YOU.Avatar.prototype._drawBody = function (bodyShape, color)
 {
     let ctx = this._canvas.get2DContext();
-
-    let headPoints = MINI_YOU.Avatar.POINTS.HEAD;
     ctx.fillStyle = color;
-    this._canvas.drawPolygon(headPoints[0][0], headPoints[0][1], headPoints, true, true);
+    this._canvas.drawPolygon(bodyShape.POINTS[0][0], bodyShape.POINTS[0][1], bodyShape.POINTS, true, true);
 };
