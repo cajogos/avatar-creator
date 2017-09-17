@@ -21,7 +21,7 @@ div.avatar-creator div.code-area {
 div.code-area textarea.code-input {
     background: inherit;
     font-family: monospace;
-    font-size: 18px;
+    font-size: 14px;
     height: 100%;
     width: 100%;
     resize: none;

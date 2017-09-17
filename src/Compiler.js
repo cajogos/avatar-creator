@@ -9,10 +9,5 @@ MINI_YOU.Compiler.prototype.constructor = MINI_YOU.Compiler;
 MINI_YOU.Compiler.prototype.compileCode = function (code)
 {
     let json = JSON.parse(code);
-
-
-
-    console.log(json);
-
     return json;
 };

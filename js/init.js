@@ -11,18 +11,14 @@ $(document).ready(function ()
         "name": "Carlos",
         "author": "cajogos@github"
     },
-    "body" : {
+    "body": {
         "shape": "shape1",
-        "color": "orange"
+        "color": "lightblue"
     },
-    "eyes" : {
-        "shape": "",
-        "color": "cyan"
-    },
-    "head" : {
-        "color": "blue"
+    "shirt": {
+        "shape": "tshirt",
+        "color": "purple"
     }
 }`;
     MINI_YOU.EDITOR.setText(code);
-
 });

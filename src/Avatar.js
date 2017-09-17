@@ -5,7 +5,6 @@
 MINI_YOU.Avatar = function (canvas)
 {
     this._canvas = canvas;
-    this._needsDrawing = true;
     this._init();
 };
 MINI_YOU.Avatar.prototype.constructor = MINI_YOU.Avatar;
@@ -30,18 +29,45 @@ MINI_YOU.Avatar.BODY_SHAPE_1 = {
     ]
 };
 
+MINI_YOU.Avatar.SHIRTS = {
+    SHIRT: {
+        POINTS: [
+            [128, 160], [352, 160], [352, 288], [304, 288],
+            [304, 208], [304, 320], [176, 320], [176, 208],
+            [176, 288], [128, 288], [128, 160]
+        ]
+    },
+    T_SHIRT: {
+        POINTS: [
+            [128, 160], [352, 160], [352, 224], [304, 224],
+            [304, 208], [304, 320], [176, 320], [176, 208],
+            [176, 224], [128, 224], [128, 160]
+        ]
+    }
+};
+
 /**
  * @private
  */
 MINI_YOU.Avatar.prototype._init = function ()
 {
+    // Start the drawing flag
+    this._needsDrawing = true;
+
+    /*** Initialize defaults ***/
     let ctx = this._canvas.get2DContext();
     ctx.strokeStyle = 'black';
 
-    this.setBodyShape(MINI_YOU.Avatar.BODY_SHAPE_1);
-    this.setBodyColor('#CCC');
+    // Body
+    this._bodyShape = MINI_YOU.Avatar.BODY_SHAPE_1;
+    this._bodyColor = 'lightgreen';
 
-    this._draw();
+    // Shirt
+    this._shirtShape = MINI_YOU.Avatar.SHIRTS.SHIRT;
+    this._shirtColor = 'red';
+
+
+    this._draw(); // Do initial drawing
 };
 
 /**
@@ -53,11 +79,18 @@ MINI_YOU.Avatar.prototype._draw = function ()
     {
         // Draw  body
         this._drawBody(this.getBodyShape(), this.getBodyColor());
+
+        // Draw shirt
+        this._drawShirt(this.getShirtShape(), this.getShirtColor());
+
+
+        this._needsDrawing = false;
     }
 };
 
 MINI_YOU.Avatar.prototype.processData = function (data)
 {
+    // Body
     if (typeof data.body !== 'undefined')
     {
         // Body shape
@@ -75,6 +108,30 @@ MINI_YOU.Avatar.prototype.processData = function (data)
         if (typeof data.body.color !== 'undefined')
         {
             this.setBodyColor(data.body.color);
+        }
+    }
+
+    // Shirt
+    if (typeof data.shirt !== 'undefined')
+    {
+        // Shirt shape
+        if (typeof data.shirt.shape !== 'undefined')
+        {
+            let shirtShape = data.shirt.shape;
+            switch (shirtShape)
+            {
+                case 'tshirt':
+                    this.setShirtShape(MINI_YOU.Avatar.SHIRTS.T_SHIRT);
+                    break;
+                case 'shirt':
+                default:
+                    this.setShirtShape(MINI_YOU.Avatar.SHIRTS.SHIRT);
+            }
+        }
+        // Shirt color
+        if (typeof data.shirt.color !== 'undefined')
+        {
+            this.setShirtColor(data.shirt.color);
         }
     }
 
@@ -126,4 +183,50 @@ MINI_YOU.Avatar.prototype._drawBody = function (bodyShape, color)
     let ctx = this._canvas.get2DContext();
     ctx.fillStyle = color;
     this._canvas.drawPolygon(bodyShape.POINTS[0][0], bodyShape.POINTS[0][1], bodyShape.POINTS, true, true);
+};
+
+/**
+ * @returns {Object}
+ */
+MINI_YOU.Avatar.prototype.getShirtShape = function ()
+{
+    return this._shirtShape;
+};
+
+/**
+ * @param {Object} shirtShape
+ */
+MINI_YOU.Avatar.prototype.setShirtShape = function (shirtShape)
+{
+    this._shirtShape = shirtShape;
+    this._needsDrawing = true;
+};
+
+/**
+ * @returns {string}
+ */
+MINI_YOU.Avatar.prototype.getShirtColor = function ()
+{
+    return this._shirtColor;
+};
+
+/**
+ * @param {string} color
+ */
+MINI_YOU.Avatar.prototype.setShirtColor = function (color)
+{
+    this._shirtColor = color;
+    this._needsDrawing = true;
+};
+
+/**
+ * @param {Object} shirtShape
+ * @param {string} color
+ * @private
+ */
+MINI_YOU.Avatar.prototype._drawShirt = function (shirtShape, color)
+{
+    let ctx = this._canvas.get2DContext();
+    ctx.fillStyle = color;
+    this._canvas.drawPolygon(shirtShape.POINTS[0][0], shirtShape.POINTS[0][1], shirtShape.POINTS, true, true);
 };
