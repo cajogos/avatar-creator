@@ -15,9 +15,13 @@ $(document).ready(function ()
         "shape": "shape1",
         "color": "lightblue"
     },
-    "shirt": {
-        "shape": "tshirt",
+    "tops": {
+        "shape": "vneck",
         "color": "purple"
+    },
+    "bottoms": {
+        "shape": "shorts",
+        "color": "blue"
     }
 }`;
     MINI_YOU.EDITOR.setText(code);
