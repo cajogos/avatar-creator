@@ -15,6 +15,10 @@ $(document).ready(function ()
         "shape": "shape1",
         "color": "lightblue"
     },
+    "eyes": {
+        "shape": "basic",
+        "color": "red"
+    },
     "tops": {
         "shape": "vneck",
         "color": "purple"

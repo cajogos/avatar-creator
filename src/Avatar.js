@@ -29,6 +29,19 @@ MINI_YOU.Avatar.BODY_SHAPE_1 = {
     ]
 };
 
+MINI_YOU.Avatar.EYES = {
+    BASIC: {
+        LEFT: {
+            X: 264,
+            Y: 88
+        },
+        RIGHT: {
+            X: 216,
+            Y: 88
+        }
+    }
+};
+
 /**
  * @type {Object}
  */
@@ -57,6 +70,9 @@ MINI_YOU.Avatar.TOPS = {
     }
 };
 
+/**
+ * @type {Object}
+ */
 MINI_YOU.Avatar.BOTTOMS = {
     TROUSERS: {
         POINTS: [
@@ -88,6 +104,10 @@ MINI_YOU.Avatar.prototype._init = function ()
     this._bodyShape = MINI_YOU.Avatar.BODY_SHAPE_1;
     this._bodyColor = 'lightgreen';
 
+    // Eyes
+    this._eyesShape = MINI_YOU.Avatar.EYES.BASIC;
+    this._eyesColor = 'royalblue';
+
     // Shirt
     this._topsShape = MINI_YOU.Avatar.TOPS.SHIRT;
     this._topsColor = 'red';
@@ -108,6 +128,9 @@ MINI_YOU.Avatar.prototype._draw = function ()
     {
         // Draw  body
         this._drawBody(this.getBodyShape(), this.getBodyColor());
+
+        // Draw eyes
+        this._drawEyes(this.getEyesShape(), this.getEyesColor());
 
         // Draw tops
         this._drawTops(this.getTopsShape(), this.getTopsColor());
@@ -140,6 +163,27 @@ MINI_YOU.Avatar.prototype.processData = function (data)
         if (typeof data.body.color !== 'undefined')
         {
             this.setBodyColor(data.body.color);
+        }
+    }
+
+    // Eyes
+    if (typeof data.eyes !== 'undefined')
+    {
+        // Eyes shape
+        if (typeof data.eyes.shape !== 'undefined')
+        {
+            let eyesShape = data.eyes.shape;
+            switch (eyesShape)
+            {
+                case 'basic':
+                default:
+                    this.setEyesShape(MINI_YOU.Avatar.EYES.BASIC);
+            }
+        }
+        // Eyes color
+        if (typeof data.eyes.color !== 'undefined')
+        {
+            this.setEyesColor(data.eyes.color);
         }
     }
 
@@ -234,6 +278,93 @@ MINI_YOU.Avatar.prototype.setBodyColor = function (color)
 };
 
 /**
+ * @param {Object} bodyShape
+ * @param {string} color
+ * @private
+ */
+MINI_YOU.Avatar.prototype._drawBody = function (bodyShape, color)
+{
+    let ctx = this._canvas.get2DContext();
+    ctx.fillStyle = color;
+    this._canvas.drawPolygon(bodyShape.POINTS[0][0], bodyShape.POINTS[0][1], bodyShape.POINTS, true, true);
+};
+
+
+/**
+ * @returns {Object}
+ */
+MINI_YOU.Avatar.prototype.getEyesShape = function ()
+{
+    return this._eyesShape;
+};
+
+/**
+ * @param {Object} shape
+ */
+MINI_YOU.Avatar.prototype.setEyesShape = function (shape)
+{
+    this._eyesShape = shape;
+    this._needsDrawing = true;
+};
+
+MINI_YOU.Avatar.prototype.getEyesColor = function ()
+{
+    return this._eyesColor;
+};
+
+/**
+ * @param {string} color
+ */
+MINI_YOU.Avatar.prototype.setEyesColor = function (color)
+{
+    this._eyesColor = color;
+    this._needsDrawing = true;
+};
+
+/**
+ * @param {Object} eyesShape
+ * @param {string} color
+ * @private
+ */
+MINI_YOU.Avatar.prototype._drawEyes = function (eyesShape, color)
+{
+    let ctx = this._canvas.get2DContext();
+
+    let leftEyeX = eyesShape.LEFT.X;
+    let leftEyeY = eyesShape.LEFT.Y;
+
+    let rightEyeX = eyesShape.RIGHT.X;
+    let rightEyeY = eyesShape.RIGHT.Y;
+
+    let radiusEnd = Math.PI * 2;
+
+    // Sclera (outside white part of the eye)
+    ctx.beginPath();
+    ctx.arc(leftEyeX, leftEyeY, 10, 0, radiusEnd);
+    ctx.moveTo(226, 88);
+    ctx.arc(rightEyeX, rightEyeY, 10, 0, radiusEnd);
+    ctx.fillStyle = 'white';
+    ctx.fill();
+    ctx.stroke();
+
+    // Iris
+    ctx.beginPath();
+    ctx.arc(leftEyeX, 89, 6, 0, radiusEnd);
+    ctx.moveTo(222, 88);
+    ctx.arc(rightEyeX, 87, 6, 0, radiusEnd);
+    ctx.fillStyle = color;
+    ctx.fill();
+    ctx.stroke();
+
+    // Pupil
+    ctx.beginPath();
+    ctx.arc(leftEyeX, 89, 2, 0, radiusEnd);
+    ctx.arc(rightEyeX, 87, 2, 0, radiusEnd);
+    ctx.fillStyle = 'black';
+    ctx.fill();
+};
+
+/**
  * @returns {Object}
  */
 MINI_YOU.Avatar.prototype.getTopsShape = function ()
@@ -268,6 +399,18 @@ MINI_YOU.Avatar.prototype.setTopsColor = function (color)
 };
 
 /**
+ * @param {Object} topsShape
+ * @param {string} color
+ * @private
+ */
+MINI_YOU.Avatar.prototype._drawTops = function (topsShape, color)
+{
+    let ctx = this._canvas.get2DContext();
+    ctx.fillStyle = color;
+    this._canvas.drawPolygon(topsShape.POINTS[0][0], topsShape.POINTS[0][1], topsShape.POINTS, true, true);
+};
+
+/**
  * @returns {string}
  */
 MINI_YOU.Avatar.prototype.getBottomsShape = function ()
@@ -299,31 +442,6 @@ MINI_YOU.Avatar.prototype.setBottomsColor = function (color)
 {
     this._bottomsColor = color;
     this._needsDrawing = true;
-};
-
-/*** Draw Functions ***/
-/**
- * @param {Object} bodyShape
- * @param {string} color
- * @private
- */
-MINI_YOU.Avatar.prototype._drawBody = function (bodyShape, color)
-{
-    let ctx = this._canvas.get2DContext();
-    ctx.fillStyle = color;
-    this._canvas.drawPolygon(bodyShape.POINTS[0][0], bodyShape.POINTS[0][1], bodyShape.POINTS, true, true);
-};
-
-/**
- * @param {Object} topsShape
- * @param {string} color
- * @private
- */
-MINI_YOU.Avatar.prototype._drawTops = function (topsShape, color)
-{
-    let ctx = this._canvas.get2DContext();
-    ctx.fillStyle = color;
-    this._canvas.drawPolygon(topsShape.POINTS[0][0], topsShape.POINTS[0][1], topsShape.POINTS, true, true);
 };
 
 /**
