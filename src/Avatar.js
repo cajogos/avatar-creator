@@ -116,6 +116,9 @@ MINI_YOU.Avatar.prototype._init = function ()
     this._bottomsShape = MINI_YOU.Avatar.BOTTOMS.TROUSERS;
     this._bottomsColor = 'navy';
 
+    // Shoes
+    this._shoesColor = 'orange';
+
     this._draw(); // Do initial drawing
 };
 
@@ -138,6 +141,8 @@ MINI_YOU.Avatar.prototype._draw = function ()
         // Draw bottoms
         this._drawBottoms(this.getBottomsShape(), this.getBottomsColor());
 
+        // Draw shoes
+        this._drawShoes(this.getShoesColor());
 
         this._needsDrawing = false;
     }
@@ -238,8 +243,17 @@ MINI_YOU.Avatar.prototype.processData = function (data)
         }
     }
 
+    // Shoes
+    if (typeof data.shoes !== 'undefined')
+    {
+        // Shoes color
+        if (typeof data.shoes.color !== 'undefined')
+        {
+            this.setShoesColor(data.shoes.color);
+        }
+    }
 
-    // Set the drawing!
+    // Set the drawing
     this._draw();
 };
 
@@ -454,4 +468,40 @@ MINI_YOU.Avatar.prototype._drawBottoms = function (bottomsShape, color)
     let ctx = this._canvas.get2DContext();
     ctx.fillStyle = color;
     this._canvas.drawPolygon(bottomsShape.POINTS[0][0], bottomsShape.POINTS[0][1], bottomsShape.POINTS, true, true);
+};
+
+/**
+ * @returns {string}
+ */
+MINI_YOU.Avatar.prototype.getShoesColor = function ()
+{
+    return this._shoesColor;
+};
+
+/**
+ * @param {string} color
+ */
+MINI_YOU.Avatar.prototype.setShoesColor = function (color)
+{
+    this._shoesColor = color;
+};
+
+/**
+ * @param {string} color
+ * @private
+ */
+MINI_YOU.Avatar.prototype._drawShoes = function(color)
+{
+    let ctx = this._canvas.get2DContext();
+    ctx.fillStyle = color;
+
+    let leftShoe = [
+        [256, 448], [304, 448], [304, 464], [256, 464]
+    ];
+    this._canvas.drawPolygon(leftShoe[0][0], leftShoe[0][1], leftShoe, true, true);
+
+    let rightShoe = [
+        [176, 448], [224, 448], [224, 464], [176, 464]
+    ];
+    this._canvas.drawPolygon(rightShoe[0][0], rightShoe[0][1], rightShoe, true, true);
 };

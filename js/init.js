@@ -6,7 +6,8 @@ $(document).ready(function ()
     // Start the MINI_YOU object
     MINI_YOU.init(editorElement, canvasElement);
 
-    let code = `{
+    let testCode =
+`{
     "info": {
         "name": "Carlos",
         "author": "cajogos@github"
@@ -26,7 +27,10 @@ $(document).ready(function ()
     "bottoms": {
         "shape": "shorts",
         "color": "blue"
+    },
+    "shoes": {
+        "color": "brown"
     }
 }`;
-    MINI_YOU.EDITOR.setText(code);
+    MINI_YOU.EDITOR.setText(testCode);
 });
